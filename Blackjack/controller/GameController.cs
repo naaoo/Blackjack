@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Blackjack.controller
 {
@@ -21,15 +23,18 @@ namespace Blackjack.controller
             // step 1: both player and croupier draw a card
             Step1();
             // step 2: player draws a second card and keeps drawing until he wants no more
+            Thread.Sleep(2500);
             PlayerDrawCard();
             while (CheckScorePlayer() && AskCard())
             {
                 PlayerDrawCard();
+                Thread.Sleep(2500);
             }
             // step 3: croupier draws second card, if lower than 17 he draws another
             if (player.score < 22)
             {
                 CroupierDrawCard();
+                Thread.Sleep(2500);
                 if (croupier.score > 21 )
                 {
                     Console.WriteLine("You won! Croupier exceeded 21...");
@@ -37,11 +42,13 @@ namespace Blackjack.controller
                 else if (croupier.score < 17)
                 {
                     CroupierDrawCard();
+                    Thread.Sleep(2500);
                 }
                 if (croupier.score > 21)
                 {
                     Console.WriteLine("You won! Croupier exceeded 21...");
                 }
+                // step 4: compare scores and announce winner
                 CheckWinner();
             }
         }
@@ -58,12 +65,12 @@ namespace Blackjack.controller
         public void PlayerDrawCard()
         {
             Console.WriteLine("Player draws another card...");
-            Console.WriteLine("Value: " + player.drawCard() + "\nPlayer overall score: " + player.score);
+            Console.WriteLine("Value: " + player.drawCard() + "\nPlayer overall score: " + player.score + "\n");
         }
 
         public void CroupierDrawCard()
         {
-            Console.WriteLine("Croupier draws a card ...");
+            Console.WriteLine("Croupier draws another card ...");
             Console.WriteLine("Value: " + croupier.drawCard() + "\nCroupier overall score: " + croupier.score + "\n");
         }
 
@@ -108,25 +115,31 @@ namespace Blackjack.controller
         {
             int diffPlayer = 21 - player.score;
             int diffCroupier = 21 - croupier.score;
-            if (diffPlayer < diffCroupier)
+            if (diffPlayer == diffCroupier)
             {
-                if (diffPlayer == 0)
-                {
-                    Console.WriteLine("Black Jack! You won!");
-                } 
-                else
-                {
-                    Console.WriteLine("You won! (You're closer to 21)");
-                }
-            }
+                Console.WriteLine("Undecided! (Same score)");
+            } 
             else
             {
-                if (croupier.score < 22)
+                if (diffPlayer < diffCroupier)
                 {
-                    Console.WriteLine("House has won");
+                    if (diffPlayer == 0)
+                    {
+                        Console.WriteLine("Black Jack! You won!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("You won! (You're closer to 21)");
+                    }
                 }
-                
-            }
+                else
+                {
+                    if (croupier.score < 22)
+                    {
+                        Console.WriteLine("House has won");
+                    }
+                }
+            }           
         }
     }
 }

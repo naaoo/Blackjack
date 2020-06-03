@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Blackjack.model
 {
@@ -18,6 +19,7 @@ namespace Blackjack.model
 
         public int drawCard()
         {
+            Thread.Sleep(1500);
             Card card = new Card();
             this.score = this.score + card.Value;
             return card.Value;
