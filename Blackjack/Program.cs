@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Blackjack.controller;
+using Blackjack.model;
+using System;
 
 namespace Blackjack
 {
@@ -6,7 +8,8 @@ namespace Blackjack
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            GameController gameController = new GameController();
+            gameController.playGame();
         }
     }
 }
